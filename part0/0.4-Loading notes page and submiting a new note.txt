@@ -1,0 +1,25 @@
+title 0.4-Loading notes page and submiting a new note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server->browser: Response notes page
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server->browser: main.js
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: data.json
+note over browser: Finished loading page from server
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+note over browser: Submitted a new note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server->browser: Response notes page
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server->browser: main.js
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server->browser: data.json
+note over server: new notes page sent to browser
+note over browser: received new note page containing the new note
+
+
