@@ -58,7 +58,7 @@ function App() {
       <Button text="Neutral" handleClick={() => setNeutral(neutral + 1)} />
       <Button text="Bad" handleClick={() => setBad(bad + 1)} />
       <Heading text="Statistics" />
-      <Statistics names={names_array} values={val_dict} />      
+      {!good && !bad && !neutral ? <p>No Feedback Given</p> : <Statistics names={names_array} values={val_dict} />}
     </div>
   );
 }
