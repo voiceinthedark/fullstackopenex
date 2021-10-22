@@ -1,12 +1,13 @@
-import './App.css';
+import "./App.css";
 import React, { useState } from "react";
 
 const Button = (props) => {
-  return(
-    <button onClick={props.fn}>{props.text}</button>
-  )
+  return <button onClick={props.fn}>{props.text}</button>;
+};
 
-}
+const Heading = (props) => {
+  return <h1>{props.text}</h1>;
+};
 
 const App = () => {
   const anecdotes = [
@@ -19,26 +20,40 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
   ];
 
-  let [selected, setSelected] = useState(0);
+  let rndAnecdote = Math.floor(Math.random() * 10) % anecdotes.length;
+  let [selected, setSelected] = useState(rndAnecdote);
   const [vote, setVote] = useState(() => {
     let obj = Object.create({});
-    for(let i = 0; i < anecdotes.length; i++){
+    for (let i = 0; i < anecdotes.length; i++) {
       obj[i] = 0;
     }
-    return obj;    
+    return obj;
   });
+  let maxVote = Object.keys({...vote}).reduce((a, b) => vote[a] > vote[b] ? a : b);
+  // console.log(maxVote);
 
   return (
-    <div><p>{anecdotes[selected]}</p>
-    <Button text="vote" fn={() => {
-      let copy = {...vote};
-      copy[selected] += 1
-      setVote(copy)
-    }} />
-    <Button text="Next Anecdote" fn={() => setSelected(Math.floor(Math.random()* anecdotes.length))} />
+    <div>
+      <Heading text="Anecdote of the day" />
+      <p>{anecdotes[selected]}</p>
+      <p>has {vote[selected]} vote(s)</p>
+      <Button
+        text="vote"
+        fn={() => {
+          let copy = { ...vote };
+          copy[selected] += 1;
+          setVote(copy);
+        }}
+      />
+      <Button text="Next Anecdote" fn={() => { 
+        setSelected(() => Math.floor(Math.random() * 10) % anecdotes.length);
+        // console.log(rndAnecdote);
+      }} />
+      <Heading text="Anecdote with the most votes" />   
+      <p>{anecdotes[maxVote]}</p>
+      <p>has {vote[maxVote]} votes</p>
     </div>
-
-    );
+  );
 };
 
 export default App;
