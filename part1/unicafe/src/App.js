@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./App.css";
 
 const Heading = (props) => {
   return <h1>{props.text}</h1>;
@@ -10,9 +11,10 @@ const Button = (props) => {
 
 const Stat = (props) => {
   return (
-    <p>
-      {props.name} {props.val}
-    </p>
+    <tr>
+      <td>{props.name}</td>
+      <td>{props.val}</td>
+    </tr>
   );
 };
 
@@ -24,21 +26,20 @@ const Statistics = (props) => {
 
   return (
     <>
-      <Stat name={props.names[0]} val={props.values.good} />
-      <Stat name={props.names[1]} val={props.values.neutral} />
-      <Stat name={props.names[2]} val={props.values.bad} />
-      <Stat
-        name={props.names[3]}
-        val={all}
-      />
-      <Stat
-        name={props.names[4]}
-        val={average}
-      />
-      <Stat
-        name={props.names[5]}
-        val={positive + " %"}
-      />
+      <table>
+        <tbody>
+          <tr>
+            <th>Rating</th>
+            <th>vote</th>
+          </tr>
+          <Stat name={props.names[0]} val={props.values.good} />          
+          <Stat name={props.names[1]} val={props.values.neutral} />
+          <Stat name={props.names[2]} val={props.values.bad} />
+          <Stat name={props.names[3]} val={all} />
+          <Stat name={props.names[4]} val={average} />
+          <Stat name={props.names[5]} val={positive + "%"} />
+        </tbody>
+      </table>
     </>
   );
 };
