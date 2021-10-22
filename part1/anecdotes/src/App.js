@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const Button = (props) => {
   return(
-    <button onClick={props.rndAnecdote}>Next Anecdote</button>
+    <button onClick={props.fn}>{props.text}</button>
   )
 
 }
@@ -19,11 +19,23 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
   ];
 
-  const [selected, setSelected] = useState(0);
+  let [selected, setSelected] = useState(0);
+  const [vote, setVote] = useState(() => {
+    let obj = Object.create({});
+    for(let i = 0; i < anecdotes.length; i++){
+      obj[i] = 0;
+    }
+    return obj;    
+  });
 
   return (
     <div><p>{anecdotes[selected]}</p>
-    <Button rndAnecdote={() => setSelected(Math.floor(Math.random() * 10) % anecdotes.length)} />
+    <Button text="vote" fn={() => {
+      let copy = {...vote};
+      copy[selected] += 1
+      setVote(copy)
+    }} />
+    <Button text="Next Anecdote" fn={() => setSelected(Math.floor(Math.random()* anecdotes.length))} />
     </div>
 
     );
