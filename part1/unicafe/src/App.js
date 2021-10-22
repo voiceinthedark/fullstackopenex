@@ -1,27 +1,55 @@
 import React, { useState } from "react";
 
 const Heading = (props) => {
-  return (
-    <h1>{props.text}</h1>
-  )
+  return <h1>{props.text}</h1>;
 };
 
 const Button = (props) => {
-  return(
-    <button onClick={props.handleClick}>{props.text}</button>
-  )
+  return <button onClick={props.handleClick}>{props.text}</button>;
 };
 
 const Stat = (props) => {
-  return(
-    <p>{props.name} {props.val}</p>
-  )
-}
+  return (
+    <p>
+      {props.name} {props.val}
+    </p>
+  );
+};
+
+const Statistics = (props) => {
+  const all = props.values.good + props.values.neutral + props.values.bad;
+  const average = ((props.values.good + props.values.bad * -1) /
+          (all)).toFixed(2);
+  const positive = ((props.values.good / all) * 100).toFixed(2);
+
+  return (
+    <>
+      <Stat name={props.names[0]} val={props.values.good} />
+      <Stat name={props.names[1]} val={props.values.neutral} />
+      <Stat name={props.names[2]} val={props.values.bad} />
+      <Stat
+        name={props.names[3]}
+        val={all}
+      />
+      <Stat
+        name={props.names[4]}
+        val={average}
+      />
+      <Stat
+        name={props.names[5]}
+        val={positive + " %"}
+      />
+    </>
+  );
+};
 
 function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+
+  const names_array = ['good', 'neutral', 'bad', 'all', 'average', 'positive'];
+  const val_dict = {good: good, neutral: neutral, bad: bad};
 
   return (
     <div>
@@ -30,12 +58,7 @@ function App() {
       <Button text="Neutral" handleClick={() => setNeutral(neutral + 1)} />
       <Button text="Bad" handleClick={() => setBad(bad + 1)} />
       <Heading text="Statistics" />
-      <Stat name="good" val={good} />
-      <Stat name="neutral" val={neutral} />
-      <Stat name="bad" val={bad} />
-      <Stat name="all" val={good + bad + neutral} />
-      <Stat name="average" val={(good + bad * -1) / (good + bad + neutral)} />
-      <Stat name="positive" val={(good / (good + bad + neutral)) * 100 + " %"} />
+      <Statistics names={names_array} values={val_dict} />      
     </div>
   );
 }
