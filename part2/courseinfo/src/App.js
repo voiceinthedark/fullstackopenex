@@ -1,14 +1,13 @@
 import './App.css';
 
-const Total = (props) => {
+const Total = ({course}) => {
+  console.log(course.parts)
   return (
     <>
-      <p>
-        Number of exercises{" "}
-        {props.course.parts[0].exercises +
-          props.course.parts[1].exercises +
-          props.course.parts[2].exercises}
-      </p>
+      <strong>
+        Total of exercises{" "}
+        {course.parts.map((a) => a.exercises).reduce((a, b) => a + b, 0)}
+      </strong>
     </>
   );
 };
@@ -42,6 +41,7 @@ const Course = ({course}) =>{
     <>
     <Header name={course.name} />
     <Content course={course} />
+    <Total course={course} />
     </>
   );
 };
