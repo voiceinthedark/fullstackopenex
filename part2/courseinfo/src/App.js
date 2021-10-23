@@ -4,10 +4,11 @@ const Total = ({course}) => {
   console.log(course.parts)
   return (
     <>
-      <strong>
+      <li><strong>
         Total of exercises{" "}
         {course.parts.map((a) => a.exercises).reduce((a, b) => a + b, 0)}
       </strong>
+      </li>
     </>
   );
 };
@@ -17,6 +18,7 @@ const Content = ({course}) => {
     <>
       <ul>
       {course.parts.map((p) => <Part key={p.id} part={p.name} exercises={p.exercises}/>)}        
+      <Total course={course} />
       </ul>
     </>
   );
@@ -40,8 +42,7 @@ const Course = ({course}) =>{
   return(
     <>
     <Header name={course.name} />
-    <Content course={course} />
-    <Total course={course} />
+    <Content course={course} />    
     </>
   );
 };
