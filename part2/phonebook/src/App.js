@@ -12,18 +12,23 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault();
-    console.log(`Adding name`, newName);
+    // console.log(`Adding name`, newName);
+    // console.log(persons.map(p => p.name).find((a) => a === 'Art Hellas'));
+    if (persons.map((p) => p.name).find((a) => a === newName)) {
+      alert(`${newName} is already in the phonebook`);
+      return;
+    }
 
     const newPerson = {
       name: newName,
     };
 
     setPersons(persons.concat(newPerson));
-    
+    setNewName('');    
   };
 
   const handleNameChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setNewName(event.target.value);
   };
 
