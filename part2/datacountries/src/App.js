@@ -8,16 +8,10 @@ function App() {
   const [data, setData] = useState([]);
   const [country, setCountry] = useState("");
   const [param] = useState(["name"]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const handleFilterChange = (e) => {
-    setCountry(e.target.value);
-    // let filterArr = [...data];
-    // setData(filterArr
-    //   .filter(obj => {
-    //     //console.log(obj["name"]["common"]);
-    //     return obj["name"]["common"].indexOf(e.target.value.toLowerCase()) > -1;
-    //     }));
-    // console.log(filterArr);
+    setCountry(e.target.value);    
   };
 
   const search = (items) => {
@@ -53,7 +47,7 @@ function App() {
     <div>
       <Filter filterBy={country} handleFilterChange={handleFilterChange} />
       <ul>        
-        <ListItems search={search} data={data} />
+        <ListItems search={search} data={data} country={country} setCountry={setCountry} />
       </ul>
     </div>
   );
