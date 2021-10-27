@@ -8,7 +8,8 @@ function App() {
   const [data, setData] = useState([]);
   const [country, setCountry] = useState("");
   const [param] = useState(["name"]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [weather, setWeather] = useState([]);
+  // const [filteredData, setFilteredData] = useState([]);
 
   const handleFilterChange = (e) => {
     setCountry(e.target.value);    
@@ -47,7 +48,7 @@ function App() {
     <div>
       <Filter filterBy={country} handleFilterChange={handleFilterChange} />
       <ul>        
-        <ListItems search={search} data={data} country={country} setCountry={setCountry} />
+        <ListItems search={search} data={data} country={country} setCountry={setCountry} setWeather={setWeather} weather={weather} />
       </ul>
     </div>
   );

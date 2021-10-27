@@ -1,7 +1,8 @@
 import React from "react";
 import ShowButton from "./ShowButton";
+import Weather from "./WeatherWidget";
 
-export const ListItem = ({ search, items, getLanguage }) => {
+export const ListItem = ({ search, items, getLanguage, setWeather, weather }) => {
   return search(items).map((item) => {
     return (
       <div key={item.name.common}>
@@ -19,6 +20,8 @@ export const ListItem = ({ search, items, getLanguage }) => {
         <p>
           <img src={item.flags.png} alt={item.name.common} />
         </p>
+        <h2>Weather in {item.capital}</h2>
+        <Weather city={item.capital} setWeather={setWeather} weather={weather} />
       </div>
     );
   });
@@ -33,7 +36,7 @@ export const getLanguage = (cntry) => {
   return languages;
 };
 
-const ListItems = ({ search, data, setCountry, country }) => {
+const ListItems = ({ search, data, setCountry, setWeather, weather }) => {
   const sr = search(data);  
 
   return (
@@ -41,11 +44,11 @@ const ListItems = ({ search, data, setCountry, country }) => {
       {sr.length > 10 ? (
         "Too many results, please refine your search"
       ) : sr.length === 1 ? (
-        <ListItem search={search} items={data} getLanguage={getLanguage} />
+        <ListItem search={search} items={data} getLanguage={getLanguage} setWeather={setWeather} weather={weather} />
       ) : (
         sr.map((item) => {
           return (
-            <li key={item.name.common}>
+            <li key={item.name.official}>
               {item.name.common}{" "}
               <ShowButton setCountry={setCountry} country={item.name.common} />
             </li>
