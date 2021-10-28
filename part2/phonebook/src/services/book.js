@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = "http://localhost:3001/Persons";
+const baseUrl = "http://localhost:3001/persons";
 
 const getAll = () => {
     return axios.get(baseUrl).then(res => res.data);    
@@ -10,4 +10,8 @@ const add = (entry) => {
     return axios.post(baseUrl, entry).then(res => res.data);
 }
 
-export default {getAll, add};
+const del = (entry) => {
+    console.log(entry);
+    return axios.delete(`${baseUrl}/${entry}`).then(res => res);
+}
+export default {getAll, add, del};

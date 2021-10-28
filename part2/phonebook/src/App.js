@@ -21,8 +21,7 @@ const App = () => {
 
     const newPerson = {
       name: newName,
-      number: newNumber,
-      id: persons.length + 1,
+      number: newNumber,      
       show: true,
     };
 
@@ -67,7 +66,7 @@ const App = () => {
       <Form addName={addName} newName={newName} newNumber={newNumber}  handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>      
       <h2>Numbers</h2>
       <ul>
-        <Persons persons={persons} />
+        <Persons persons={persons} setPersons={setPersons} />
       </ul>
     </div>
   );
