@@ -3,6 +3,7 @@ import Filter from "./components/Filter";
 import Form from "./components/Form";
 import { Persons } from "./components/Persons";
 import axios from 'axios';
+import book from "./services/book";
 
 
 const App = () => {
@@ -25,9 +26,9 @@ const App = () => {
       show: true,
     };
 
-    axios.post("http://localhost:3001/persons", newPerson)
+    book.add(newPerson)
       .then(res => {
-        setPersons(persons.concat(newPerson));
+        setPersons(persons.concat(res));
         setNewName("");
         setNewNumber("");
       })
@@ -53,12 +54,8 @@ const App = () => {
   }  
 
   useEffect(() => {
-    console.log("Effect...");
-    axios.get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('response :>> ', response.status);
-      console.log(response.data);
-      setPersons(response.data);
+    book.getAll().then( res => {
+      setPersons(res);
     })
   }, []);
 
