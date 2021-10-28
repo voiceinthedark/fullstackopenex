@@ -25,9 +25,14 @@ const App = () => {
       show: true,
     };
 
-    setPersons(persons.concat(newPerson));
-    setNewName('');    
-    setNewNumber("");
+    axios.post("http://localhost:3001/persons", newPerson)
+      .then(res => {
+        setPersons(persons.concat(newPerson));
+        setNewName("");
+        setNewNumber("");
+      })
+
+    
   };
 
   const handleNameChange = (event) => {
