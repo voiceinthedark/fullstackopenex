@@ -14,4 +14,9 @@ const del = (entry) => {
     console.log(entry);
     return axios.delete(`${baseUrl}/${entry}`).then(res => res);
 }
-export default {getAll, add, del};
+
+const update = (entry) => {
+    return axios.put(`${baseUrl}/${entry.id}`, entry).then(res => res.data);
+}
+
+export default {getAll, add, del, update};
