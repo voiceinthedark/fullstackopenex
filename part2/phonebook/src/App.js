@@ -13,11 +13,17 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
     if (persons.map((p) => p.name).find((a) => a === newName)) {
-      let yes = window.confirm(`${newName} is already in the phonebook, replace phone number?`);
+      let yes = window.confirm(
+        `${newName} is already in the phonebook, replace phone number?`
+      );
       if (yes) {
-        let entry = persons.filter(p => p.name === newName);
+        let entry = persons.filter((p) => p.name === newName);
         const newEntry = { ...entry[0], number: newNumber };
-        book.update(newEntry).then(res => setPersons(persons.map(p => p.id !== newEntry.id ? p : res)));
+        book
+          .update(newEntry)
+          .then((res) =>
+            setPersons(persons.map((p) => (p.id !== newEntry.id ? p : res)))
+          );
       }
 
       return;

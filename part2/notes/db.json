@@ -19,12 +19,6 @@
       "important": true
     },
     {
-      "content": "a new note...",
-      "date": "2021-10-27T17:25:22.279Z",
-      "important": true,
-      "id": 4
-    },
-    {
       "content": "This is good",
       "date": "2021-10-27T17:25:38.033Z",
       "important": true,
@@ -35,6 +29,12 @@
       "date": "2021-10-27T17:28:25.472Z",
       "important": true,
       "id": 6
+    },
+    {
+      "content": "A dazzlling voice",
+      "date": "2021-10-29T08:17:55.228Z",
+      "important": false,
+      "id": 7
     }
   ]
 }
