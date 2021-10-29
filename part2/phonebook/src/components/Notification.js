@@ -5,7 +5,9 @@ const Notification = ({ message }) => {
     return null;
   }
 
-  return <div className="success">{message}</div>;
+  let error = message.split(" ").find(a => a.toLowerCase() === "error")
+
+  return <div className={`${error ? "error" : "success"}`}>{message}</div>;
 };
 
 export default Notification;

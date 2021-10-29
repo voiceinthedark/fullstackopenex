@@ -29,6 +29,13 @@ const App = () => {
             setTimeout(() => {
               setNotification(null);
             }, 4000);
+          })
+          .catch(error => {
+            setNotification(`Error Failure updating ${newEntry.name} information`);
+            setPersons(persons);
+            setTimeout(() => {
+              setNotification(null);
+            }, 4000);
           });
       }
 
