@@ -11,3 +11,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.iconw {
+  background-color: rgb(3, 3, 53);
+}
+
+.flag {
+  border-style: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.wdesc {
+  font-size: 1.3em;
+  font-style: italic;
+  font-variant: small-caps;
+}

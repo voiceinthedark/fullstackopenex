@@ -1,6 +1,7 @@
 import React from "react";
 import ShowButton from "./ShowButton";
 import Weather from "./WeatherWidget";
+import "../index.css";
 
 export const ListItem = ({ search, items, getLanguage, setWeather, weather }) => {
   return search(items).map((item) => {
@@ -18,7 +19,7 @@ export const ListItem = ({ search, items, getLanguage, setWeather, weather }) =>
           ))}
         </ul>
         <p>
-          <img src={item.flags.png} alt={item.name.common} />
+          <img className="flag" src={item.flags.png} alt={item.name.common} />
         </p>
         <h2>Weather in {item.capital}</h2>
         <Weather city={item.capital} setWeather={setWeather} weather={weather} />

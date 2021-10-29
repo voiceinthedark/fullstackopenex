@@ -33,7 +33,7 @@ function App() {
     axios
       .get("https://restcountries.com/v3.1/all")
       .then((response) => {
-        console.log("response :>> ", response.status);
+        // console.log("response :>> ", response.status);
         // console.log(response.data);
         setData(response.data);
       })

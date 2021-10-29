@@ -1,34 +1,48 @@
 import React, { useEffect } from "react";
 import axios from 'axios';
+import "../index.css";
 
 const Weather = ({city, setWeather, weather}) => {
-    const api_key = process.env.REACT_APP_WEATHER_KEY;    
-    console.log(api_key);
+    const api_key = process.env.REACT_APP_WEATHER_KEY_OPEN;    
+    const baseurl = "http://api.openweathermap.org/data/2.5/weather";
+    // console.log(api_key);
 
     useEffect(() => {
-        axios.get("https://api.weatherbit.io/v2.0/current", {params: {key:api_key, city:city[0]}})
-        .then(response => {
-            console.log(response.status);            
-            console.log(response.data.data[0].weather.description);
+        axios
+          .get(baseurl, {
+            params: { q: city[0], appid: api_key, units: "metric" },
+          })
+          .then((response) => {
+            // console.log(response);
+            // console.log(response);
             setWeather(response.data);
-        })
-        .catch(res => {
+          })
+          .catch((res) => {
             console.log(res);
-        })
+          });
     }, []);
 
     console.log(weather);
-    return ( weather !== [] ?
-      (<>
-        <p>{weather.data[0].weather.description}</p>
-        <strong>Temperature:</strong> {`${weather.data[0].temp} Celsius`}
-        <img
-          src={`https://www.weatherbit.io/static/img/icons/${weather.data[0].weather.icon}.png`}
-          alt={weather.data[0].weather.code}
-        />
-        <strong>Wind:</strong> {`${weather.data[0].wind_spd} m/s`}
-      </>)
-      : "Empty response"
+    return weather !== [] ? (
+      <>
+        <p className="wdesc">{weather.weather[0].description}</p>
+        <p>
+          <strong>Temperature:</strong>{" "}
+          {`${weather.main.temp} Celsius`}
+        </p>
+        <p>
+          <img
+            className="iconw"
+            src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            alt={weather.weather[0].icon}
+          />
+        </p>
+        <p>
+          <strong>Wind:</strong> {`${weather.wind.speed} m/s`}
+        </p>
+      </>
+    ) : (
+      "Empty response"
     );
 }
 
