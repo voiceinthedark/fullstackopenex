@@ -9,9 +9,7 @@ const Person = (props) => {
       <Button value={"delete"} command={() => {
         let yes = window.confirm(`Are you sure you want to delete ${props.name}?`);
         if (yes)
-          book.del(props.id).then(res => {
-            // console.log(res);
-            // console.log(res.status);
+          book.del(props.id).then(res => {            
             props.setPersons(props.persons.filter(p => p.id !== props.id));
           });
       }} />
