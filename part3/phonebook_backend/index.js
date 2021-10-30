@@ -57,7 +57,29 @@ app.delete('/api/persons/:id', (request, response) => {
     response.status(204).end();
 })
 
+app.post('/api/persons/', (request, response) => {
+  const body = request.body;
+  if (!body.name){
+    response.status(400).json({
+      error: "entry missing"
+    })
+  }
+
+  const newEntry = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  }
+
+  persons = persons.concat(newEntry);
+  response.json(newEntry);
+})
+
 const PORT = 3001;
 app.listen(PORT, () => {
     console.log(`Running Server on Port ${PORT}`);
 })
+
+let generateId = () => {
+  return Math.floor(Math.random() * (2**16));
+}
