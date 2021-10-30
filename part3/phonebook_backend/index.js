@@ -61,7 +61,15 @@ app.post('/api/persons/', (request, response) => {
   const body = request.body;
   if (!body.name){
     response.status(400).json({
-      error: "entry missing"
+      error: "entry name is missing"
+    })
+  } else if(!body.number){
+    response.status(400).json({
+      error: "entry is missing number phone"
+    })
+  } else if(persons.find(p => p.name === body.name)){
+    response.status(406).json({
+      error: "Server does not allow duplicate entry"
     })
   }
 

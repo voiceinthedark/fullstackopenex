@@ -5,3 +5,33 @@ Content-Type: application/json
     "name": "Jimmy tonga",
     "number": "06-654565"
 }
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Dan Abramov",
+    "number": "05-656325"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "",
+    "number": "05-656325"
+}
+
+###
+
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Dan Abramov",
+    "number": ""
+}
