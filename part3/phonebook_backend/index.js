@@ -37,6 +37,17 @@ app.get('/info', (request, response) => {
     <p>${new Date()}</p>`);    
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = +request.params.id;
+    const entry = persons.find(p => p.id === id);
+    // console.log(entry);
+    if (entry){
+        response.status(200).send(entry);
+    } else {
+        response.status(404).send("<h3>Entry does not exist</h3>");
+    }
+})
+
 
 const PORT = 3001;
 app.listen(PORT, () => {
