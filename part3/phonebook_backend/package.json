@@ -1,0 +1,23 @@
+{
+  "name": "phonebook_server",
+  "version": "0.0.1",
+  "description": "The server side of the phonebook app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"No command\""
+  },
+  "keywords": [
+    "express",
+    "node",
+    "js",
+    "json"
+  ],
+  "author": "Firas Abbas",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14"
+  }
+}
