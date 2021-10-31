@@ -138,7 +138,7 @@ app.post("/api/persons/", (request, response, next) => {
 
 // app.use(unknownEndpoint);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Running Server on Port ${PORT}`);
 });
