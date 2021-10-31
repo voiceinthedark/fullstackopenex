@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require('cors');
 
 app.use(express.json());
+app.use(express.static('build'))
 app.use(cors());
 
 /**
@@ -124,6 +125,7 @@ app.post("/api/persons/", (request, response, next) => {
     id: generateId(),
     name: body.name,
     number: body.number,
+    show: true
   };
 
   persons = persons.concat(newEntry);
