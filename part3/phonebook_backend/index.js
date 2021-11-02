@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const cors = require('cors');
+const Entry = require('./model/entry')
 
 app.use(express.json());
 app.use(express.static('build'))
@@ -75,7 +76,9 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  response.status(200).json(persons);
+  Entry.find({}).then(result => {
+    response.status(200).json(result);
+  })
 });
 
 app.get("/info", (request, response) => {
