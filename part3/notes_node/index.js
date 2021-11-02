@@ -1,10 +1,14 @@
 const http = require('http');
 const express = require("express");
+require("dotenv").config();
 const app = express();
 const cors = require('cors');
+const mongoose = require('mongoose');
+const Note = require('./model/note')
 
 app.use(express.json());
 app.use(cors());
+app.use(express.static('build'));
 
 let notes = [
   {
@@ -32,20 +36,19 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  // response.json(notes);
+  Note.find({}).then(result => {
+    response.json(result);
+  })
 });
 
 app.get("/api/notes/:id", (request, response) => {
-  const id = +request.params.id;
-  const note = notes.find((note) => note.id === id);
-  if (note) {
+  Note.findById(request.params.id).then(note => {
     response.json(note);
-  } else {    
-    response
-      .status(404)
-      .send("<h3>Record does not exist</h3>")
-      .end();
-  }
+  })
+  .catch(error => {
+    console.error(error.message);
+  })
 });
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -55,8 +58,7 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end();
 })
 
-app.post('/api/notes', (request, response) => {  
-
+app.post('/api/notes', (request, response) => {
   const body = request.body;
   
   if(!body.content){
@@ -65,15 +67,15 @@ app.post('/api/notes', (request, response) => {
     })
   }
 
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
     date: new Date(),
-    id: generateId(),
-  }
+  })
     
-  notes = notes.concat(note);
-  response.json(note);
+  note.save().then(result => {
+    response.json(result);
+  })
 })
 
 const unknownEndpoint = (request, response) => {
