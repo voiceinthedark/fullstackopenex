@@ -8,6 +8,14 @@ app.use(express.json());
 app.use(express.static('build'))
 app.use(cors());
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error);
+  if(error.name === 'CastError'){
+    response.status(400).send({ error: 'malformatted id'})
+  }
+  next(error);
+}
+
 /**
  * Capturing error regarding headers
  * ERR_HTTP_HEADERS_SENT
@@ -78,7 +86,7 @@ app.get("/", (request, response) => {
 app.get("/api/persons", (request, response) => {
   Entry.find({}).then(result => {
     response.status(200).json(result);
-  })
+  }).catch(error => next(error))
 });
 
 app.get("/info", (request, response) => {
@@ -102,7 +110,7 @@ app.delete("/api/persons/:id", (request, response) => {
     response.status(204).end();
   })
   .catch(error => {
-    console.error(error.message);
+    next(error);
   })
 });
 
@@ -129,7 +137,7 @@ app.post("/api/persons/", (request, response, next) => {
   newEntry.save().then(result => {
     response.json(result);
     assignContent(request, response, next, result);
-  })
+  });
 
 });
 
@@ -140,14 +148,12 @@ app.post("/api/persons/", (request, response, next) => {
 
 // app.use(unknownEndpoint);
 
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Running Server on Port ${PORT}`);
 });
-
-let generateId = () => {
-  return Math.floor(Math.random() * 2 ** 16);
-};
 
 function assignContent(req, res, next, entry) {
   req.content = JSON.stringify(entry);
