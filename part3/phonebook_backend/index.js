@@ -116,24 +116,19 @@ app.post("/api/persons/", (request, response, next) => {
       error: "entry is missing number phone",
     });
     return;
-  } else if (persons.find((p) => p.name === body.name)) {
-    // console.log(response);
-    response.status(406).json({
-      error: "Server does not allow duplicate entry",
-    });
-    return;
-  }
+  } 
 
-  const newEntry = {
-    id: generateId(),
+  const newEntry = new Entry({    
     name: body.name,
     number: body.number,
     show: true
-  };
+  });
 
-  persons = persons.concat(newEntry);
-  response.json(newEntry);
-  assignContent(request, response, next, newEntry);
+  newEntry.save().then(result => {
+    response.json(result);
+    assignContent(request, response, next, result);
+  })
+
 });
 
 // const unknownEndpoint = (request, response, next) => {
