@@ -1,20 +1,20 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const cors = require('cors');
-const Entry = require('./model/entry')
+const cors = require("cors");
+const Entry = require("./model/entry");
 
 app.use(express.json());
-app.use(express.static('build'))
+app.use(express.static("build"));
 app.use(cors());
 
 const errorHandler = (error, request, response, next) => {
   console.error(error);
-  if(error.name === 'CastError'){
-    response.status(400).send({ error: 'malformatted id'})
+  if (error.name === "CastError") {
+    response.status(400).send({ error: "malformatted id" });
   }
   next(error);
-}
+};
 
 /**
  * Capturing error regarding headers
@@ -56,36 +56,49 @@ app.get("/", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  Entry.find({}).then(result => {
-    response.status(200).json(result);
-  }).catch(error => next(error))
+  Entry.find({})
+    .then((result) => {
+      totalEntries = result.length;
+      response.status(200).json(result);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/info", (request, response) => {
-  response.send(`<p>Phonebook has info on ${persons.length} people</p>
-    <p>${new Date()}</p>`);
+  let totalEntries = 0;
+
+  Entry.find({})
+    .then((result) => {
+      totalEntries = result.length;
+      response.send(`<p>Phonebook has info on ${totalEntries} people</p>
+       <p>${new Date()}</p>`);
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/api/persons/:id", (request, response, next) => {
   const id = request.params.id;
-  Entry.findById(id).then(res => {
-    response.status(200).send(res);
-  }).catch(err =>{
-    next(err);
-  })  
+  Entry.findById(id)
+    .then((res) => {
+      response.status(200).send(res);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 app.delete("/api/persons/:id", (request, response) => {
-  Entry.findByIdAndRemove(request.params.id).then(result => {
-    response.status(204).end();
-  })
-  .catch(error => {
-    next(error);
-  })
+  Entry.findByIdAndRemove(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => {
+      next(error);
+    });
 });
 
 app.post("/api/persons/", (request, response, next) => {
-  console.log('in app post');
+  console.log("in app post");
   const body = request.body;
   if (!body.name) {
     response.status(400).json({
@@ -97,7 +110,7 @@ app.post("/api/persons/", (request, response, next) => {
       error: "entry is missing number phone",
     });
     return;
-  }  
+  }
 
   const newEntry = new Entry({
     name: body.name,
@@ -106,33 +119,31 @@ app.post("/api/persons/", (request, response, next) => {
   });
 
   newEntry.save().then((result) => {
-    console.log('result :>> ', result);
+    console.log("result :>> ", result);
     response.json(result);
     assignContent(request, response, next, result);
-  }); 
-
+  });
 });
 
-app.put('api/persons/:id', (request, response, next) => {
-  console.log('Inside app.put');
+app.put("/api/persons/:id", (request, response, next) => {
+  // console.log("Inside app.put");
   const body = request.body;
-  console.log(body);
+  // console.log(body);
 
   const updatedEntry = {
     name: body.name,
     number: body.number,
     show: body.show,
-  }
+  };
 
-  Entry.findByIdAndUpdate(request.params.id, updatedEntry).then((result) => {
-    Entry.findOne({id: request.params.id}).then(e => {
-      response.json(e);
+  Entry.findByIdAndUpdate(request.params.id, updatedEntry, { new: true })
+    .then((res) => {
+      response.json(res);
     })
-  }).catch((err) => {
-    next(err);
-  });
-     
-})
+    .catch((error) => {
+      next(error);
+    });
+});
 
 // const unknownEndpoint = (request, response, next) => {
 //   response.status(404).json({ error: "unknown endpoint" });
@@ -152,5 +163,3 @@ function assignContent(req, res, next, entry) {
   req.content = JSON.stringify(entry);
   next();
 }
-
-
