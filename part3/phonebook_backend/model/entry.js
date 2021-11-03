@@ -23,6 +23,5 @@ EntrySchema.set("toJSON", {
   },
 });
 
-// const Entry = mongoose.model('Entry', EntrySchema);
 
 module.exports = mongoose.model('Entry', EntrySchema);

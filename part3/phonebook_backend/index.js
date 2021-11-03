@@ -51,34 +51,6 @@ app.use(
   )
 );
 
-
-let persons = [
-  {
-    id: 1,
-    name: "Arto Hellas",
-    number: "040-123456",
-    show: true,
-  },
-  {
-    id: 2,
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-    show: true,
-  },
-  {
-    id: 3,
-    name: "Dan Abramov",
-    number: "12-43-234345",
-    show: true,
-  },
-  {
-    id: 4,
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-    show: true,
-  },
-];
-
 app.get("/", (request, response) => {
   response.send("<h2>Hello World</h2>");
 });
@@ -94,15 +66,13 @@ app.get("/info", (request, response) => {
     <p>${new Date()}</p>`);
 });
 
-app.get("/api/persons/:id", (request, response) => {
-  const id = +request.params.id;
-  const entry = persons.find((p) => p.id === id);
-  // console.log(entry);
-  if (entry) {
-    response.status(200).send(entry);
-  } else {
-    response.status(404).send("<h3>Entry does not exist</h3>");
-  }
+app.get("/api/persons/:id", (request, response, next) => {
+  const id = request.params.id;
+  Entry.findById(id).then(res => {
+    response.status(200).send(res);
+  }).catch(err =>{
+    next(err);
+  })  
 });
 
 app.delete("/api/persons/:id", (request, response) => {
@@ -115,6 +85,7 @@ app.delete("/api/persons/:id", (request, response) => {
 });
 
 app.post("/api/persons/", (request, response, next) => {
+  console.log('in app post');
   const body = request.body;
   if (!body.name) {
     response.status(400).json({
@@ -126,20 +97,42 @@ app.post("/api/persons/", (request, response, next) => {
       error: "entry is missing number phone",
     });
     return;
-  } 
+  }  
 
-  const newEntry = new Entry({    
+  const newEntry = new Entry({
     name: body.name,
     number: body.number,
-    show: true
+    show: true,
   });
 
-  newEntry.save().then(result => {
+  newEntry.save().then((result) => {
+    console.log('result :>> ', result);
     response.json(result);
     assignContent(request, response, next, result);
-  });
+  }); 
 
 });
+
+app.put('api/persons/:id', (request, response, next) => {
+  console.log('Inside app.put');
+  const body = request.body;
+  console.log(body);
+
+  const updatedEntry = {
+    name: body.name,
+    number: body.number,
+    show: body.show,
+  }
+
+  Entry.findByIdAndUpdate(request.params.id, updatedEntry).then((result) => {
+    Entry.findOne({id: request.params.id}).then(e => {
+      response.json(e);
+    })
+  }).catch((err) => {
+    next(err);
+  });
+     
+})
 
 // const unknownEndpoint = (request, response, next) => {
 //   response.status(404).json({ error: "unknown endpoint" });
