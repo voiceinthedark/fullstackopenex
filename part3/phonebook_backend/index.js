@@ -119,10 +119,12 @@ app.post("/api/persons/", (request, response, next) => {
   });
 
   newEntry.save().then((result) => {
-    console.log("result :>> ", result);
+    // console.log("result :>> ", result);
     response.json(result);
     assignContent(request, response, next, result);
-  });
+  }).catch(error => {
+    next(error);
+  })
 });
 
 app.put("/api/persons/:id", (request, response, next) => {
