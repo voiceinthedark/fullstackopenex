@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Note from "./components/note";
 import noteService from "./services/notes";
 import Notification from './components/notification';
@@ -24,10 +23,9 @@ const App = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("some error happened...");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
-    // console.log("effect");
     noteService.getAll().then((response) => {
       setNotes(response);
     });
@@ -59,8 +57,6 @@ const App = () => {
     : notes.filter((note) => note.important === true);
 
   const toggleImportanceOf = (id) => {
-    // console.log(`importance of ${id} needs to be toggled`);
-    const url = `http://localhost:3001/notes/${id}`;
     const note = notes.find((n) => n.id === id);
     const changedNote = { ...note, important: !note.important };
 
