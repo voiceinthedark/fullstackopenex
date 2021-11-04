@@ -11,17 +11,19 @@ mongoose.connect(url).then(result => {
 })
 
 const EntrySchema = mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-      unique: true
-    },
-    number: {
-      type: String,
-      required: true
-    },
-    show: Boolean
-})
+  name: {
+    type: String,
+    minLength: [3, "Name must be at least 3, got {VALUE}"],
+    required: [true, "Name is required"],
+    unique: true,
+  },
+  number: {
+    type: String,
+    minLength: [8, "Number must be at least 8, got {VALUE}"],
+    required: [true, "a phone number is required"],
+  },
+  show: Boolean,
+});
 
 EntrySchema.set("toJSON", {
   transform: (document, returnedObject) => {
