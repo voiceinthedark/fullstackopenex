@@ -1,0 +1,8 @@
+PUT http://localhost:3001/api/persons/61806a553c8ba083e5df2b62
+Content-Type: application/json
+
+{
+    "name": "Brian Mckenah",
+    "number": "01-111222",
+    "show": true
+}

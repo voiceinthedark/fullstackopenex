@@ -58,7 +58,16 @@ const App = () => {
       setTimeout(() => {
         setNotification(null);
       }, 4000);
-    });
+    })
+    .catch(error => {      
+        console.log(error.response);      
+      setNotification(
+        `Error - ${error.response.data.error}`
+      );
+      setTimeout(() => {
+        setNotification(null);
+      }, 8000);
+    })
   };
 
   const handleNameChange = (event) => {
