@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"No command\""
+    "test": "echo \"No command\"",
+    "lint": "eslint ."
+
   },
   "keywords": [
     "express",
@@ -24,5 +26,8 @@
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.14"
+  },
+  "devDependencies": {
+    "eslint": "^8.1.0"
   }
 }
